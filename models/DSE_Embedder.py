@@ -133,14 +133,14 @@ class DSE_Embedder:
 
             # Prepare messages for the batch with dummy text prompt and images
             doc_messages = [
-                {
+                [{
                     'role': 'user',
                     'content': [
                         # Adjust image size if needed
                         {'type': 'image', 'image': doc},
                         {'type': 'text', 'text': 'What is shown in this image?'}
                     ]
-                }
+                }]
                 for doc in batch_images
             ]
 
