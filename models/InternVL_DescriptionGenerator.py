@@ -20,8 +20,8 @@ class InternVL_DescriptionGenerator:
             self.model_name,
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=True,
-            # TODO check if flass_attention works on any kind of system
-            use_flash_attn=True,
+            # TODO Set to true for suitable GPUs
+            use_flash_attn=False,
             trust_remote_code=True).eval().cuda()
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.model_name, trust_remote_code=True, use_fast=False)
