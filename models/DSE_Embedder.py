@@ -14,7 +14,7 @@ class DSE_Embedder:
         self.max_pixels = max_pixels*28*28
         self.embedding_dimension = embedding_dimension
 
-        processor = AutoProcessor.from_pretrained(
+        self.processor = AutoProcessor.from_pretrained(
             self.model_name, min_pixels=self.min_pixels, max_pixels=self.max_pixels)
 
         model = Qwen2VLForConditionalGeneration.from_pretrained(
@@ -23,7 +23,7 @@ class DSE_Embedder:
             # attn_implementation="flash_attention_2",
             torch_dtype=torch.bfloat16).to('cuda:0').eval()
 
-        processor.tokenizer.padding_side = "left"
+        self.processor.tokenizer.padding_side = "left"
         model.padding_side = "left"
 
     def _get_embedding(last_hidden_state: torch.Tensor, dimension: int) -> torch.Tensor:
