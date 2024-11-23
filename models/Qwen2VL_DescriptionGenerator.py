@@ -5,7 +5,7 @@ from PIL import Image
 from transformers import AutoProcessor, Qwen2VLForConditionalGeneration
 
 
-class Qwen2VL_LLM:
+class Qwen2VL_DescriptionGenerator:
     def __init__(self, min_pixels: int = 1, max_pixels: int = 2560, max_new_tokens: int = 512):
         # https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct
         self.model_name = "Qwen/Qwen2-VL-7B-Instruct"
