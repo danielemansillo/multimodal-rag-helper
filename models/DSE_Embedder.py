@@ -6,6 +6,13 @@ from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen2VLForConditionalGeneration
 
 
+def _get_embedding(last_hidden_state: torch.Tensor, dimension: int) -> torch.Tensor:
+    reps = last_hidden_state[:, -1]
+    reps = torch.nn.functional.normalize(
+        reps[:, :dimension], p=2, dim=-1)
+    return reps
+
+
 class DSE_Embedder:
     def __init__(self, min_pixels: int = 1, max_pixels: int = 2560, embedding_dimension: int = 1536):
         # https://huggingface.co/MrLight/dse-qwen2-2b-mrl-v1
@@ -25,12 +32,6 @@ class DSE_Embedder:
 
         self.processor.tokenizer.padding_side = "left"
         self.model.padding_side = "left"
-
-    def _get_embedding(last_hidden_state: torch.Tensor, dimension: int) -> torch.Tensor:
-        reps = last_hidden_state[:, -1]
-        reps = torch.nn.functional.normalize(
-            reps[:, :dimension], p=2, dim=-1)
-        return reps
 
     def _embed_texts(self, texts: List[str], type: str, batch_size: int = 32) -> torch.Tensor:
         """
@@ -59,7 +60,8 @@ class DSE_Embedder:
                     'role': 'user',
                     'content': [
                         # Adding a dummy image for the easier process
-                        {'type': 'image', 'image': Image.new('RGB', (28, 28)), 'resized_height': 1, 'resized_width': 1},
+                        {'type': 'image', 'image': Image.new(
+                            'RGB', (28, 28)), 'resized_height': 1, 'resized_width': 1},
                         {'type': 'text', 'text': f'{type}: {doc}'}
                     ]
                 }]
@@ -93,7 +95,7 @@ class DSE_Embedder:
                     **doc_inputs, return_dict=True, output_hidden_states=True)
 
             # Extract the embeddings from the hidden states
-            doc_embeddings = self._get_embedding(
+            doc_embeddings = _get_embedding(
                 output.hidden_states[-1], self.embedding_dimension)
 
             # Append the embeddings of this batch to the list
@@ -169,7 +171,7 @@ class DSE_Embedder:
                     **doc_inputs, return_dict=True, output_hidden_states=True)
 
             # Extract the embeddings from the hidden states
-            doc_embeddings = self._get_embedding(
+            doc_embeddings = _get_embedding(
                 output.hidden_states[-1], self.embedding_dimension)
 
             # Append the embeddings of this batch to the list
