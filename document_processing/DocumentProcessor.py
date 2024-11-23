@@ -36,8 +36,7 @@ class DocumentProcessor:
         """Helper to validate that the number of descriptions matches the data."""
         if len(data) != len(to_set):
             raise ValueError(
-                f"Mismatch: {len(to_set)} descriptions provided, but there are {
-                    len(data)} {data_name}."
+                f"Mismatch: {len(to_set)} descriptions provided, but there are {len(data)} {data_name}."
             )
 
     def set_image_page_descriptions(self, descriptions: List[str]) -> None:
