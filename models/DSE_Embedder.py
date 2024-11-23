@@ -108,10 +108,10 @@ class DSE_Embedder:
         return torch.cat(all_embs, dim=0)
 
     def embed_queries(self, texts: List[str], batch_size: int = 32) -> torch.Tensor:
-        self._embed_texts(texts, "Query", batch_size)
+        return self._embed_texts(texts, "Query", batch_size)
 
     def embed_documents(self, texts: List[str], batch_size: int = 32) -> torch.Tensor:
-        self._embed_texts(texts, "Document", batch_size)
+        return self._embed_texts(texts, "Document", batch_size)
 
     def embed_images(self, images: List[Image.Image], batch_size: int = 32) -> torch.Tensor:
         """
