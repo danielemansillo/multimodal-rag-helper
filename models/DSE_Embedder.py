@@ -50,17 +50,19 @@ class DSE_Embedder:
         for i in range(0, len(texts), batch_size):
             batch_texts = texts[i:i + batch_size]
 
+            print("batch_texts")
+            print(batch_texts)
+
             # Prepare the messages for the batch
             doc_messages = [
-                {
+                [{
                     'role': 'user',
                     'content': [
                         # Adding a dummy image for the easier process
-                        {'type': 'image', 'image': Image.new(
-                            'RGB', (28, 28)), 'resized_height': 1, 'resized_width': 1},
+                        {'type': 'image', 'image': Image.new('RGB', (28, 28)), 'resized_height': 1, 'resized_width': 1},
                         {'type': 'text', 'text': f'{type}: {doc}'}
                     ]
-                }
+                }]
                 for doc in batch_texts
             ]
 
