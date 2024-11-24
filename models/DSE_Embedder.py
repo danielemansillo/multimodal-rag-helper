@@ -99,7 +99,7 @@ class DSE_Embedder:
                 output.hidden_states[-1], self.embedding_dimension)
 
             # Append the embeddings of this batch to the list
-            all_embs.append(doc_embeddings)
+            all_embs.extend(doc_embeddings)
 
             # Optionally clear GPU cache after each batch (useful for large datasets)
             torch.cuda.empty_cache()
