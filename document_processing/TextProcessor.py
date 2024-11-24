@@ -21,9 +21,9 @@ class TextProcessor(EmbeddableAbstract):
             "metadata": {
                 "type": "text",
                 "document": self.document.path.name,
-                "document_path": self.document.path.resolve(),
+                "document_path": str(self.document.path.resolve()),
                 "page": self.page.number,
-                "page_path": self.page.image_path.resolve(),
+                "page_path": str(self.page.image_path.resolve()),
             },
             # embedding is set in the function set_embedding
             "embedding": None

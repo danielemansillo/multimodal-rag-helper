@@ -29,11 +29,11 @@ class ImageProcessor(EmbeddableAbstract, DescribableAbstract):
             "metadata": {
                 "type": "image",
                 "document": self.document.path.name,
-                "document_path": self.document.path.resolve(),
+                "document_path": str(self.document.path.resolve()),
                 "page": self.page.number,
-                "page_path": self.page.image_path.resolve(),
+                "page_path": str(self.page.image_path.resolve()),
                 "index": self.index,
-                "image_path": self.path.resolve(),
+                "image_path": str(self.path.resolve()),
             },
             # embedding is set in the function set_embedding
             "embedding": None
