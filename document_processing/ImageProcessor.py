@@ -29,28 +29,12 @@ class ImageProcessor(EmbeddableAbstract, DescribableAbstract):
             "metadata": {
                 "type": "image",
                 "document": self.document.path.name,
-                "document_path": self.document.path,
+                "document_path": self.document.path.resolve(),
                 "page": self.page.number,
-                "page_path": self.page.image_path,
+                "page_path": self.page.image_path.resolve(),
                 "index": self.index,
-                "image_path": self.path,
+                "image_path": self.path.resolve(),
             },
             # embedding is set in the function set_embedding
             "embedding": None
-        }
-
-    def create_record(self) -> dict:
-        return {
-            "id": f"{self.document.path.stem}_page_{self.page.number}_image_{self.index}",
-            "document": self.description,
-            "metadata": {
-                "type": "image",
-                "document": self.document.path.name,
-                "document_path": self.document.path,
-                "page": self.page.number,
-                "page_path": self.page.image_path,
-                "index": self.index,
-                "image_path": self.path,
-            },
-            "embedding": self.embedding.tolist()
         }
