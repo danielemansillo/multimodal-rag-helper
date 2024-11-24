@@ -56,7 +56,7 @@ class E5V_Embedder:
             torch.cuda.empty_cache()
 
         # Concatenate all batch embeddings into one tensor
-        return torch.cat(all_embs, dim=0)
+        return torch.stack(all_embs, dim=0)
 
     def embed_images(self, images: List[Image.Image], batch_size: int = 32) -> torch.Tensor:
         """
@@ -92,4 +92,4 @@ class E5V_Embedder:
             torch.cuda.empty_cache()
 
         # Concatenate all batch embeddings into one tensor
-        return torch.cat(all_embs, dim=0)
+        return torch.stack(all_embs, dim=0)

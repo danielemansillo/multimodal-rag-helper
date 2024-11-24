@@ -105,7 +105,7 @@ class DSE_Embedder:
             torch.cuda.empty_cache()
 
         # Concatenate all batch embeddings into one tensor
-        return torch.cat(all_embs, dim=0)
+        return torch.stack(all_embs, dim=0)
 
     def embed_queries(self, texts: List[str], batch_size: int = 32) -> torch.Tensor:
         return self._embed_texts(texts, "Query", batch_size)
@@ -181,4 +181,4 @@ class DSE_Embedder:
             torch.cuda.empty_cache()
 
         # Concatenate all batch embeddings into one tensor
-        return torch.cat(all_embs, dim=0)
+        return torch.stack(all_embs, dim=0)
