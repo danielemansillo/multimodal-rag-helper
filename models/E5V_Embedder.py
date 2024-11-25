@@ -77,7 +77,7 @@ class E5V_Embedder:
             batch_images = images[i:i + batch_size]
 
             img_inputs = self.processor(
-                [self.img_prompt] * len(batch_images), batch_images, return_tensors="pt", padding=True).to('cuda')
+                [self.image_prompt] * len(batch_images), batch_images, return_tensors="pt", padding=True).to('cuda')
 
             with torch.no_grad():
                 img_embs = self.model(**img_inputs, output_hidden_states=True,
