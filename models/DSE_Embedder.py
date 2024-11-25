@@ -51,9 +51,6 @@ class DSE_Embedder:
         for i in range(0, len(texts), batch_size):
             batch_texts = texts[i:i + batch_size]
 
-            print("batch_texts")
-            print(batch_texts)
-
             # Prepare the messages for the batch
             doc_messages = [
                 [{

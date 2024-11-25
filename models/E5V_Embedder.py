@@ -50,7 +50,7 @@ class E5V_Embedder:
             text_embs = F.normalize(text_embs, dim=-1)
 
             # Append the embeddings to the list
-            all_embs.append(text_embs)
+            all_embs.extend(text_embs)
 
             # Clear cache to avoid memory issues (optional, depending on your environment)
             torch.cuda.empty_cache()
@@ -86,7 +86,7 @@ class E5V_Embedder:
             img_embs = F.normalize(img_embs, dim=-1)
 
             # Append the embeddings to the list
-            all_embs.append(img_embs)
+            all_embs.extend(img_embs)
 
             # Clear cache to avoid memory issues (optional, depending on your environment)
             torch.cuda.empty_cache()
