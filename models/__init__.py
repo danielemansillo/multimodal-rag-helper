@@ -1,6 +1,6 @@
 from importlib.metadata import version
 
-if version("transformers" == "4.41.2"):
+if version("transformers") == "4.41.2":
     from .E5V_Embedder import E5V_Embedder
 else:
     from .DSE_Embedder import DSE_Embedder
