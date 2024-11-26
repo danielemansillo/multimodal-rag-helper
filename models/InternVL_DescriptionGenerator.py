@@ -43,16 +43,17 @@ class InternVL_DescriptionGenerator:
         """
         # multi-image conversation, separate images
         descriptions = []
-        context_image = load_image(
-            page_image, max_num=12).to(torch.bfloat16).cuda()
+        context_image = load_image(page_image, max_num=12).to(torch.bfloat16).cuda()
 
         for image in detail_images:
 
             detail_image = load_image(image, max_num=12).to(torch.bfloat16).cuda()
+            print("Context image shape:", context_image.shape)
+            print("Detail image shape:", detail_image.shape)
 
             pixel_values = torch.cat((context_image, detail_image), dim=0)
-            num_patches_list = [
-                context_image.size(0), detail_image.size(0)]
+            num_patches_list = [context_image.size(0), detail_image.size(0)]
+            print("Number of patches list:", num_patches_list)
 
             question = (
                 "<image>"
