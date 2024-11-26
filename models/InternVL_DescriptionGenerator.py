@@ -48,8 +48,7 @@ class InternVL_DescriptionGenerator:
 
         for image in detail_images:
 
-            detail_image = load_image(
-                image.content, max_num=12).to(torch.bfloat16).cuda()
+            detail_image = load_image(image, max_num=12).to(torch.bfloat16).cuda()
 
             pixel_values = torch.cat((context_image, detail_image), dim=0)
             num_patches_list = [
