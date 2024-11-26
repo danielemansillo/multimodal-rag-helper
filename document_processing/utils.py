@@ -8,10 +8,7 @@ from PIL import Image
 def validate_length(data: Sequence[Any], to_set: Sequence[Any], data_name: str, to_set_name: str) -> None:
     """Helper to validate that the number of descriptions or embeddings matches the data."""
     if len(data) != len(to_set):
-        raise ValueError(
-            f"Mismatch: {len(to_set)} {to_set_name} provided, but there are {
-                len(data)} {data_name}."
-        )
+        raise ValueError(f"Mismatch: {len(to_set)} {to_set_name} provided, but there are {len(data)} {data_name}.")
 
 
 def pixmap_to_image(pix: pymupdf.Pixmap) -> Image.Image:
