@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from .FolderProcessor import FolderProcessor
 
 from .utils import (apply_mask, paste_on_white_background, pixmap_to_image,
-                    resize_image_to_target_area)
+                    resize_image_to_target_area, validate_length)
 
 
 class PageProcessor(EmbeddableAbstract, DescribableAbstract):
@@ -37,7 +37,8 @@ class PageProcessor(EmbeddableAbstract, DescribableAbstract):
 
         document_images = self._extract_page_images(document, page)
         if len(document_images) > 0:
-            self.folder_path: Path = Path(f"{document.path.with_suffix('')}/page_{number}")
+            self.folder_path: Path = Path(
+                f"{document.path.with_suffix('')}/page_{number}")
             self.folder_path.mkdir(parents=True, exist_ok=True)
 
         # Extract and initialize individual images on the page
@@ -58,6 +59,19 @@ class PageProcessor(EmbeddableAbstract, DescribableAbstract):
             # embedding is set in the function set_embedding
             "embedding": None
         }
+
+    def set_image_descriptions(self, descriptions: List[str]) -> None:
+        """
+        Set the description for the images in the page and for the page itself by concatenating the text and the images descriptions
+
+        Args:
+            descriptions (List[str]): _description_
+        """
+        validate_length(self.images, descriptions, "images", "descriptions")
+        for image, description in zip(self.images, descriptions):
+            image.set_description(description=description)
+        
+        self.set_description("Text: " + self.text.content + "\n".join([f"Image{i}: {image.description}" for i, image in enumerate(self.images, start=1)]))
 
     def _process_page_image(self, page: pymupdf.Page) -> Image.Image:
         """

@@ -1,9 +1,17 @@
 import math
+from typing import Any, Sequence
 
 import pymupdf
 from PIL import Image
 
-# This is the max size accepted by Claude and it seemed a good compromise
+
+def validate_length(data: Sequence[Any], to_set: Sequence[Any], data_name: str, to_set_name: str) -> None:
+    """Helper to validate that the number of descriptions or embeddings matches the data."""
+    if len(data) != len(to_set):
+        raise ValueError(
+            f"Mismatch: {len(to_set)} {to_set_name} provided, but there are {
+                len(data)} {data_name}."
+        )
 
 
 def pixmap_to_image(pix: pymupdf.Pixmap) -> Image.Image:
@@ -33,6 +41,7 @@ def apply_mask(doc: pymupdf.Document, img: list) -> pymupdf.Pixmap:
     return pix
 
 
+# This is the max size accepted by Claude and it seemed a good compromise
 def resize_image_to_target_area(img: Image.Image, target_area: int = 1192464) -> Image.Image:
     original_width, original_height = img.size
     # original_area = original_width * original_height
