@@ -55,7 +55,7 @@ class InternVL_DescriptionGenerator:
                 context_image.size(0), detail_image.size(0)]
 
             question = (
-                "<image>",
+                "<image>"
                 "The first image shows the entire page containing the second image. "
                 "Analyze the second image in the context of the first one. "
                 "Describe in detail the content of the second image. "
