@@ -56,7 +56,7 @@ class InternVL_DescriptionGenerator:
             print("Number of patches list:", num_patches_list)
 
             question = (
-                "<image>"
+                "Image-1: <image>\nImage-2: <image>\n"
                 "The first image shows the entire page containing the second image. "
                 "Analyze the second image in the context of the first one. "
                 "Describe in detail the content of the second image. "
