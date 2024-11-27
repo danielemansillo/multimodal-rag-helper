@@ -94,4 +94,6 @@ class Qwen2VL_DescriptionGenerator:
             )
             descriptions.append(output_text)
 
+            torch.cuda.empty_cache()
+
         return descriptions
