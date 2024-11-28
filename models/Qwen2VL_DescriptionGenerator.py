@@ -92,7 +92,7 @@ class Qwen2VL_DescriptionGenerator:
             output_text = self.processor.batch_decode(
                 generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
             )
-            descriptions.append(output_text)
+            descriptions.extend(output_text)
 
             torch.cuda.empty_cache()
 
