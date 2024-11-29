@@ -115,8 +115,7 @@ class DocumentProcessor:
         for i, page in enumerate(self.pages):
             images_descriptions[f"Page {i}"] = {}
             for j, image in enumerate(page.images):
-                images_descriptions[f"Page {
-                    i}"][f"Image {j}"] = image.description
+                images_descriptions[f"Page {i}"][f"Image {j}"] = image.description
 
         with self.descriptions_path.open("w", encoding="utf-8") as json_file:
             json.dump(images_descriptions, json_file,
