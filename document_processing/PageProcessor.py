@@ -28,8 +28,11 @@ class PageProcessor(EmbeddableAbstract, DescribableAbstract):
             f"{document.path.with_suffix('')}/page_{number}.jpg")
 
         # Initialize the main page image
-        self.image: Image.Image = self._process_page_image(page)
-        self.image.save(fp=self.image_path)
+        if self.image_path.exists():
+            self.image: Image.Image = Image.open(self.image_path)
+        else:
+            self.image: Image.Image = self._process_page_image(page)
+            self.image.save(fp=self.image_path)
 
         # Extract and initialize text content
         self.text: TextProcessor = TextProcessor(
@@ -70,7 +73,7 @@ class PageProcessor(EmbeddableAbstract, DescribableAbstract):
         validate_length(self.images, descriptions, "images", "descriptions")
         for image, description in zip(self.images, descriptions):
             image.set_description(description=description)
-        
+
         self.set_description("Text: " + self.text.content + "\n".join([f"Image{i}: {image.description}" for i, image in enumerate(self.images, start=1)]))
 
     def _process_page_image(self, page: pymupdf.Page) -> Image.Image:
