@@ -16,7 +16,7 @@ from .utils import (apply_mask, paste_on_white_background, pixmap_to_image,
 
 
 class PageProcessor(EmbeddableAbstract, DescribableAbstract):
-    def __init__(self, folder: 'FolderProcessor', document: 'DocumentProcessor', number: int, page: pymupdf.Page):
+    def __init__(self, folder: 'FolderProcessor', document: 'DocumentProcessor', number: int, page: pymupdf.Page, img_cutoff_dim: int = 160):
         from .ImageProcessor import ImageProcessor
         from .TextProcessor import TextProcessor
 
@@ -47,6 +47,8 @@ class PageProcessor(EmbeddableAbstract, DescribableAbstract):
         # Extract and initialize individual images on the page
         self.images: List[ImageProcessor] = [ImageProcessor(
             folder, document, self, index, content=image) for index, image in enumerate(document_images)]
+        
+        self.images: List[ImageProcessor] = [image for image in self.images if image.content.size[0] > img_cutoff_dim and image.content.size[1] > img_cutoff_dim]
 
         self.record: Dict[str, Any] = {
             "id": f"{self.document.path.stem}_page_{self.page.number}",
@@ -58,6 +60,7 @@ class PageProcessor(EmbeddableAbstract, DescribableAbstract):
                 "document_path": str(self.document.path.resolve()),
                 "page": self.page.number,
                 "page_path": str(self.image_path.resolve())
+                # TODO: Resolve make the path absolute with respect to the current working directory! Better to have it relative
             },
             # embedding is set in the function set_embedding
             "embedding": None

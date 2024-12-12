@@ -1,21 +1,30 @@
 from pathlib import Path
 from typing import Any, Dict, List
+from tqdm import tqdm
 
 
 class FolderProcessor:
     """Handles processing of a folder containing multiple documents."""
 
-    def __init__(self, path: Path):
+    def __init__(self, path: Path, limit_documents: int = None, pdf_only: bool = True):
         from .DocumentProcessor import DocumentProcessor
         from .ImageProcessor import ImageProcessor
         from .PageProcessor import PageProcessor
         from .TextProcessor import TextProcessor
         self.path: Path = path
+        if pdf_only:
+            files = list(self.path.glob("*.pdf"))
+        else:
+            files = list(self.path.iterdir())
+            
         self.documents: List[DocumentProcessor] = [
             DocumentProcessor(self, file_path)
-            for file_path in self.path.iterdir()
+            for file_path in tqdm(files, desc="Processing documents")
             if file_path.is_file()
         ]
+        if limit_documents:
+            self.documents = self.documents[:limit_documents]
+
         self.all_pages: List[PageProcessor] = []
         self.all_texts: List[TextProcessor] = []
         self.all_images: List[ImageProcessor] = []
