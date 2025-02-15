@@ -122,7 +122,6 @@ class Qwen2VL_LLM:
 
         inputs = self.processor(
             text=[text],
-            images=[],
             padding=True,
             return_tensors="pt",
         )
